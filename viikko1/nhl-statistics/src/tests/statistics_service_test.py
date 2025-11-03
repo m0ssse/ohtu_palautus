@@ -1,5 +1,5 @@
 import unittest
-from statistics_service import StatisticsService
+from statistics_service import StatisticsService, SortBy
 from player import Player
 
 class PlayerReaderStub:
@@ -32,11 +32,27 @@ class TestStatisticsService(unittest.TestCase):
         self.assertEqual(pelaajat, [
             "Semenko EDM 4 + 12 = 16",
             "Kurri EDM 37 + 53 = 90",
-            "Gretzky EDM 3"
-            "5 + 89 = 124"
+            "Gretzky EDM 35 + 89 = 124"
         ])
 
     def test_top_palauttaa_oikean_maaran_pelaajia(self):
         for i in range(5):
             pelaajat = self.stats.top(i)
             self.assertEqual(len(pelaajat), i+1) #tehtäväpohjassa annettu metodi top palauttaa yhtä pidemmän listan kuin parametri, koska silmukan päättymisehtona on, että indeksi on yhtä suuri kuin parametri
+
+    def test_top_palauttaa_oikean_pelaajan_vakioparametrilla(self):
+        pelaaja = self.stats.top(0)[0]
+        self.assertEqual(str(pelaaja), "Gretzky EDM 35 + 89 = 124")
+
+    def test_top_palauttaa_oikean_pelaajan_ilman_vakioparametria(self):        
+        pelaaja = self.stats.top(0, SortBy.POINTS)[0]
+        self.assertEqual(str(pelaaja), "Gretzky EDM 35 + 89 = 124")
+
+    def test_top_palauttaa_eniten_maaleja_tehneen_pelaajan(self):
+        pelaaja = self.stats.top(0, SortBy.GOALS)[0]
+        self.assertEqual(str(pelaaja), "Lemieux PIT 45 + 54 = 99")
+    
+    def test_top_palauttaa_eniten_syottoja_saaneen_pelaajan(self):
+        pelaaja = self.stats.top(0, SortBy.ASSISTS)[0]
+        self.assertEqual(str(pelaaja), "Gretzky EDM 35 + 89 = 124")
+    
