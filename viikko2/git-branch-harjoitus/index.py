@@ -11,5 +11,10 @@ print(f"{x} + {y} = {summa(x, y)}")
 print(f"{x} - {y} = {erotus(x, y)}") 
 print(f"{x} * {y} = {tulo(x, y)}") 
 
+<<<<<<< HEAD
 logger("lopetetaan!")
 print("goodbye!")
+=======
+logger("lopetetaan")
+print("goodbye!!!")
+>>>>>>> 5b85c63 (changed index in another clone)
