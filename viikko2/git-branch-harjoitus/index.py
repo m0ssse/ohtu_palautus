@@ -11,5 +11,5 @@ print(f"{x} + {y} = {summa(x, y)}")
 print(f"{x} - {y} = {erotus(x, y)}") 
 print(f"{x} * {y} = {tulo(x, y)}") 
 
-logger("lopetetaan")
+logger("lopetetaan!")
 print("goodbye!")
