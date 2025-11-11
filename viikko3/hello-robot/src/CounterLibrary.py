@@ -18,4 +18,4 @@ class CounterLibrary:
             raise AssertionError(f"{self._counter.value} != {int_expected}")
         
     def reset_counter(self):
-        self._counter = Counter()
+        self._counter.reset()
