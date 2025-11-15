@@ -7,8 +7,12 @@ Test Setup      Reset Application Create User And Go To Register Page
 *** Test Cases ***
 
 Register With Valid Username And Password
-    Create User  kalle  kalle123
-    Register Should Succeed
+    Go To Register Page
+    Set Username  kalle
+    Set Password  kalle123
+    Set Password Confirmation  kalle123
+    Welcome Page Should Be Open
+
 
 Register With Too Short Username And Valid Password
 # ...
@@ -44,6 +48,10 @@ Set Username
 Set Password
     [Arguments]  ${password}
     Input Password  password  ${password}
+
+Set Password Confirmation
+    [Arguments]  ${password_confirmation}
+    Input Password  password_confirmation  ${password_confirmation}
 
 *** Keywords ***
 Reset Application Create User And Go To Register Page
