@@ -40,6 +40,9 @@ class UserService:
         if not username or not password:
             raise UserInputError("Username and password are required")
 
+        if self._user_repository.find_by_username(username):
+            raise UserInputError("Username already exists")
+
         # toteuta loput tarkastukset tänne ja nosta virhe virhetilanteissa
 
 
