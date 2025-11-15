@@ -11,6 +11,7 @@ Register With Valid Username And Password
     Set Username  kalle
     Set Password  kalle123
     Set Password Confirmation  kalle123
+    Click Button  Register
     Welcome Page Should Be Open
 
 
