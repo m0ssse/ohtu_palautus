@@ -39,3 +39,6 @@ Go To Login Page
 
 Go To Starting Page
     Go To  ${HOME_URL}
+
+Register Page Should Be open
+    Title Shoul Be  Register
