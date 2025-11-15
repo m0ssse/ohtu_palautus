@@ -41,4 +41,4 @@ Go To Starting Page
     Go To  ${HOME_URL}
 
 Register Page Should Be open
-    Title Shoul Be  Register
+    Title Should Be  Register
