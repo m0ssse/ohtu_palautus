@@ -46,7 +46,6 @@ Set Password
     Input Password  password  ${password}
 
 *** Keywords ***
-Reset Application Create User And Go To Login Page
+Reset Application Create User And Go To Register Page
     Reset Application
-    Create User  kalle  kalle123
-    Go To Login Page
+    Go To Register Page
