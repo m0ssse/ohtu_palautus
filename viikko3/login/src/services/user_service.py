@@ -3,7 +3,6 @@ from repositories.user_repository import (
     user_repository as default_user_repository
 )
 
-
 class UserInputError(Exception):
     pass
 
@@ -42,7 +41,18 @@ class UserService:
 
         if self._user_repository.find_by_username(username):
             raise UserInputError("Username already exists")
-
+        
+        if len(username)<3:
+            raise UserInputError("Username must contain at least 3 characters")
+        
+        if password.isalpha():
+            raise UserInputError("Password must contain numbers or special characters")
+        
+        if len(password)<8:
+            raise UserInputError("Password must contain at least 8 characters")
+        
+        if password!=password_confirmation:
+            raise UserInputError("Passwords don't match!")
         # toteuta loput tarkastukset tänne ja nosta virhe virhetilanteissa
 
 

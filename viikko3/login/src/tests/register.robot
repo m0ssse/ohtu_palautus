@@ -12,11 +12,16 @@ Register With Valid Username And Password
     Set Password  kalle123
     Set Password Confirmation  kalle123
     Click Button  Register
-    Welcome Page Should Be Open
+    Register Should Succeed
 
 
 Register With Too Short Username And Valid Password
-# ...
+    Go to Register Page
+    Set Username  x
+    Set Password  asdf1234
+    Set Password Confirmation  asdf1234
+    Click Button  Register
+    Register Should Fail With Message  Username must contain at least 3 characters
 
 Register With Valid Username And Too Short Password
 # ...
