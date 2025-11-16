@@ -24,7 +24,12 @@ Register With Too Short Username And Valid Password
     Register Should Fail With Message  Username must contain at least 3 characters
 
 Register With Valid Username And Too Short Password
-# ...
+    Go to Register Page
+    Set Username  xyz
+    Set Password  asd123
+    Set Password Confirmation  asd123
+    Click Button Register
+    Register Should Fail With Message  Password must contain at least 8 characters
 
 Register With Valid Username And Invalid Password
 # salasana ei sisällä halutunlaisia merkkejä
