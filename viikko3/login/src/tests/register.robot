@@ -33,13 +33,35 @@ Register With Valid Username And Too Short Password
 
 Register With Valid Username And Invalid Password
 # salasana ei sisällä halutunlaisia merkkejä
-# ...
+    Go to Register Page
+    Set Username  xyz
+    Set Password  qwerasdf
+    Set Password Confirmation  qwerasdf
+    Click Button Register
+    Register Should Fail With Message  Password must contain numbers or special characters
 
 Register With Nonmatching Password And Password Confirmation
-# ...
+    Go to Register Page
+    Set Username  xyz
+    Set Password  asdf1234
+    Set Password Confirmation  asdf1235
+    Click Button Register
+    Register Should Fail With Message  Passwords don't match!
 
 Register With Username That Is Already In Use
-#
+    Go to Register Page
+    Set Username  xyz
+    Set Password  asdf1234
+    Set Password Confirmation  asdf1234
+    Click Button Register
+    Register Should Succeed
+    Go to Register Page
+    Set Username  xyz
+    Set Password  asdf4321
+    Set Password Confirmation  asdf4321
+    Click Button Register
+    Register Should Fail With Message  Username already exists
+
 
 *** Keywords ***
 Register Should Succeed
