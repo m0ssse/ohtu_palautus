@@ -20,7 +20,7 @@ class TennisGame:
             else:
                 score = "Deuce"
         elif self.player1_score >= 4 or self.player2_score >= 4:
-            score_difference = self.player1_score - self. player2_score
+            score_difference = self.player1_score - self.player2_score
 
             if score_difference == 1:
                 score = f"Advantage {self.player1_name}"
