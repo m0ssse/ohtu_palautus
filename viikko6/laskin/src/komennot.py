@@ -28,4 +28,4 @@ class Kumoa:
         self._io = io
 
     def suorita(self):
-        return
+        self._sovelluslogiikka.kumoa()

@@ -17,7 +17,7 @@ class Kayttoliittyma:
         self._komennot = {Komento.SUMMA: Summa(self._sovelluslogiikka, self._lue_syote),
                           Komento.EROTUS: Erotus(self._sovelluslogiikka, self._lue_syote),
                           Komento.NOLLAUS: Nollaus(self._sovelluslogiikka, self._lue_syote),
-                          Komento.KUMOA: Kumoa(self._sovelluslogiikka, self._lue_syote  )
+                          Komento.KUMOA: Kumoa(self._sovelluslogiikka, self._lue_syote)
                           }
 
     def kaynnista(self):
