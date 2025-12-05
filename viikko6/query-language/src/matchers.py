@@ -29,9 +29,7 @@ class Not:
 
     def test(self, player):
         return not self._matcher.test(player)
-
-
-
+    
 class PlaysIn:
     def __init__(self, team):
         self._team = team
@@ -59,3 +57,19 @@ class HasFewerThan:
         player_value = getattr(player, self._attr)
 
         return player_value < self._value
+    
+class QueryBuilder:
+    def __init__(self, matcher = All()):
+        self._matcher = matcher
+
+    def plays_in(self, team):
+        return QueryBuilder(And(self._matcher, PlaysIn(team)))
+    
+    def has_at_least(self, value, attribute):
+        return QueryBuilder(And(self._matcher, HasAtLeast(value, attribute)))
+    
+    def has_fewer_than(self, value, attribute):
+        return QueryBuilder(And(self._matcher, HasFewerThan(value, attribute)))
+
+    def build(self):
+        return self._matcher
