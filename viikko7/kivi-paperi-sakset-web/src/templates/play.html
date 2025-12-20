@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelaa - Kivi-Paperi-Sakset</title>
+    <style>
+        :root {
+            --bg-gradient-start: #667eea;
+            --bg-gradient-end: #764ba2;
+            --container-bg: white;
+            --text-color: #333;
+            --text-secondary: #666;
+            --button-gradient-start: #667eea;
+            --button-gradient-end: #764ba2;
+            --score-bg-start: #667eea;
+            --score-bg-end: #764ba2;
+            --move-btn-bg: white;
+            --move-btn-border: #667eea;
+            --move-btn-color: #667eea;
+        }
+        
+        body.dark-mode {
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-end: #16213e;
+            --container-bg: #0f3460;
+            --text-color: #e4e4e4;
+            --text-secondary: #b4b4b4;
+            --button-gradient-start: #533483;
+            --button-gradient-end: #7b2cbf;
+            --score-bg-start: #533483;
+            --score-bg-end: #7b2cbf;
+            --move-btn-bg: #1a1a2e;
+            --move-btn-border: #7b2cbf;
+            --move-btn-color: #b4b4b4;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.3s ease;
+        }
+        
+        .container {
+            background: var(--container-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--button-gradient-start);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: transform 0.2s;
+            z-index: 10;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        h2 {
+            color: var(--text-color);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3em;
+        }
+        
+        .scoreboard {
+            background: linear-gradient(135deg, var(--score-bg-start) 0%, var(--score-bg-end) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .scoreboard h3 {
+            margin-bottom: 10px;
+        }
+        
+        .scores {
+            display: flex;
+            justify-content: space-around;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .score-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .score-label {
+            font-size: 0.7em;
+            opacity: 0.9;
+        }
+        
+        .moves {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .move-btn {
+            background: var(--move-btn-bg);
+            border: 3px solid var(--move-btn-border);
+            color: var(--move-btn-color);
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
+            font-size: 3em;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .move-btn:hover {
+            background: var(--button-gradient-start);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .move-label {
+            font-size: 0.3em;
+            margin-top: 5px;
+        }
+        
+        .player2-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px dashed #ddd;
+        }
+        
+        .player2-section h3 {
+            color: var(--text-color);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--button-gradient-start) 0%, var(--button-gradient-end) 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .end-game {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .end-game a {
+            color: var(--button-gradient-start);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .end-game a:hover {
+            text-decoration: underline;
+        }
+        
+        input[type="radio"] {
+            display: none;
+        }
+        
+        input[type="radio"]:checked + .move-btn {
+            background: var(--button-gradient-start);
+            color: white;
+            border-color: var(--button-gradient-end);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌓</button>
+        <h1>🎮 {{ game_name }}</h1>
+        
+        <div class="scoreboard">
+            <h3>Pelitilanne</h3>
+            <div class="scores">
+                <div class="score-item">
+                    <span class="score-label">Pelaaja 1</span>
+                    <span>{{ tuomari.ekan_pisteet }}</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">Tasapelit</span>
+                    <span>{{ tuomari.tasapelit }}</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">{% if game_type == 'a' %}Pelaaja 2{% else %}Tietokone{% endif %}</span>
+                    <span>{{ tuomari.tokan_pisteet }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <form action="/make-move" method="POST">
+            <h2>Pelaaja 1: Valitse siirtosi</h2>
+            <div class="moves">
+                <label>
+                    <input type="radio" name="move" value="k" required>
+                    <div class="move-btn">
+                        <span>👊</span>
+                        <span class="move-label">Kivi</span>
+                    </div>
+                </label>
+                <label>
+                    <input type="radio" name="move" value="p" required>
+                    <div class="move-btn">
+                        <span>✋</span>
+                        <span class="move-label">Paperi</span>
+                    </div>
+                </label>
+                <label>
+                    <input type="radio" name="move" value="s" required>
+                    <div class="move-btn">
+                        <span>✌️</span>
+                        <span class="move-label">Sakset</span>
+                    </div>
+                </label>
+            </div>
+            
+            {% if game_type == 'a' %}
+            <div class="player2-section">
+                <h3>Pelaaja 2: Valitse siirtosi</h3>
+                <div class="moves">
+                    <label>
+                        <input type="radio" name="player2_move" value="k" required>
+                        <div class="move-btn">
+                            <span>👊</span>
+                            <span class="move-label">Kivi</span>
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="player2_move" value="p" required>
+                        <div class="move-btn">
+                            <span>✋</span>
+                            <span class="move-label">Paperi</span>
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="player2_move" value="s" required>
+                        <div class="move-btn">
+                            <span>✌️</span>
+                            <span class="move-label">Sakset</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            {% endif %}
+            
+            <button type="submit" class="submit-btn">Pelaa kierros!</button>
+        </form>
+        
+        <div class="end-game">
+            <p><a href="/game-over">Lopeta peli</a></p>
+        </div>
+    </div>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+        
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+</body>
+</html>

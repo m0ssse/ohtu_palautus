@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kierroksen tulos - Kivi-Paperi-Sakset</title>
+    <style>
+        :root {
+            --bg-gradient-start: #667eea;
+            --bg-gradient-end: #764ba2;
+            --container-bg: white;
+            --text-color: #333;
+            --text-secondary: #666;
+            --button-gradient-start: #667eea;
+            --button-gradient-end: #764ba2;
+            --score-bg-start: #667eea;
+            --score-bg-end: #764ba2;
+        }
+        
+        body.dark-mode {
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-end: #16213e;
+            --container-bg: #0f3460;
+            --text-color: #e4e4e4;
+            --text-secondary: #b4b4b4;
+            --button-gradient-start: #533483;
+            --button-gradient-end: #7b2cbf;
+            --score-bg-start: #533483;
+            --score-bg-end: #7b2cbf;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.3s ease;
+        }
+        
+        .container {
+            background: var(--container-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--button-gradient-start);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: transform 0.2s;
+            z-index: 10;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+        
+        .result-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 30px 0;
+            font-size: 4em;
+        }
+        
+        .vs {
+            color: var(--text-color);
+            font-size: 0.5em;
+            font-weight: bold;
+        }
+        
+        .move-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .move-label {
+            font-size: 0.3em;
+            color: var(--text-secondary);
+        }
+        
+        .scoreboard {
+            background: linear-gradient(135deg, var(--score-bg-start) 0%, var(--score-bg-end) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .scoreboard h3 {
+            margin-bottom: 10px;
+        }
+        
+        .scores {
+            display: flex;
+            justify-content: space-around;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .score-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .score-label {
+            font-size: 0.7em;
+            opacity: 0.9;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--button-gradient-start) 0%, var(--button-gradient-end) 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--container-bg);
+            color: var(--button-gradient-start);
+            border: 2px solid var(--button-gradient-start);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌓</button>
+        <h1>Kierroksen tulos</h1>
+        
+        <div class="result-display">
+            <div class="move-display">
+                <span>{{ player1_move[0] if player1_move == 'Kivi' else ('✋' if player1_move == 'Paperi' else '✌️') }}</span>
+                <span class="move-label">Pelaaja 1<br>{{ player1_move }}</span>
+            </div>
+            <span class="vs">VS</span>
+            <div class="move-display">
+                <span>{{ player2_move[0] if player2_move == 'Kivi' else ('✋' if player2_move == 'Paperi' else '✌️') }}</span>
+                <span class="move-label">{% if game_type == 'a' %}Pelaaja 2{% else %}Tietokone{% endif %}<br>{{ player2_move }}</span>
+            </div>
+        </div>
+        
+        <div class="scoreboard">
+            <h3>Pelitilanne</h3>
+            <div class="scores">
+                <div class="score-item">
+                    <span class="score-label">Pelaaja 1</span>
+                    <span>{{ tuomari.ekan_pisteet }}</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">Tasapelit</span>
+                    <span>{{ tuomari.tasapelit }}</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">{% if game_type == 'a' %}Pelaaja 2{% else %}Tietokone{% endif %}</span>
+                    <span>{{ tuomari.tokan_pisteet }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            {% if game_ended %}
+            <a href="/game-over" class="btn btn-primary">Näytä lopputulos</a>
+            {% else %}
+            <a href="/play" class="btn btn-primary">Pelaa uusi kierros</a>
+            <a href="/game-over" class="btn btn-secondary">Lopeta peli</a>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+        
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+</body>
+</html>
